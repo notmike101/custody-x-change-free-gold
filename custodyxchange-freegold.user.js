@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Custody-X-Change Free Gold
 // @namespace    notmike101/cxc-freegold
-// @version      1
+// @version      1.1
 // @description  Give gold for free
 // @author       Mike Orozco
 // @match        https://app.custodyxchange.com/*
@@ -10,21 +10,18 @@
 //
 // @downloadURL  https://gitlab.com/notmike101/custody-x-change-free-gold/raw/master/custodyxchange-freegold.user.js
 // @updateURL    https://gitlab.com/notmike101/custody-x-change-free-gold/raw/master/custodyxchange-freegold.meta.js
-
 // ==/UserScript==
 
 var open_prototype = XMLHttpRequest.prototype.open,
 intercept_response = function(urlpattern, callback) {
    XMLHttpRequest.prototype.open = function() {
       arguments['1'].match(urlpattern) && this.addEventListener('readystatechange', function(event) {
-         if ( this.readyState === 4 ) {
+         if (this.readyState === 4) {
             var response = callback(event.target.responseText);
             Object.defineProperty(this, 'response', {writable: true});
             Object.defineProperty(this, 'responseText', {writable: true});
             this.response = this.responseText = response;
-
-             console.log(this);
-         }
+        }
       });
       return open_prototype.apply(this, arguments);
    };
@@ -49,7 +46,6 @@ intercept_response(/\api\/account/gim,(response) => {
         newScript.type = "text/javascript";
         newScript.textContent = text;
         document.head.appendChild(newScript);
-        console.log('script added');
     }
 
     window.addEventListener('beforescriptexecute', function(e) {
