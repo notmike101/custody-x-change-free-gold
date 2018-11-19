@@ -24,3 +24,4 @@ Due to the nature of this plugin, I cannot guaruntee that any feature will work 
 **Other browsers**
 1. Use a supported browser.
 2. Be happier.
+3. 
